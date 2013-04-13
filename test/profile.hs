@@ -2,13 +2,8 @@ import Data.Word
 
 import System.Random.Random123.Philox
 import System.Random.Random123.Threefry
+import System.Random.Random123.Misc
 
-
-apply :: Int -> (a -> a) -> a -> a
-apply n f v0 = applyLoop 0 v0 where
-    applyLoop i v
-        | i == n    = v
-        | otherwise = applyLoop (i + 1) $ f v
 
 a1x32 = 123 :: Word32
 a2x32 = (123 :: Word32, 456 :: Word32)
@@ -31,4 +26,4 @@ iterations = 1000
 testFunc = threefry2x32
 
 main :: IO ()
-main = print $ apply iterations (fst testFunc) (snd testFunc)
+main = print $ apply (fst testFunc) iterations (snd testFunc)

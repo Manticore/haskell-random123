@@ -6,6 +6,8 @@ import Data.Bits
 import Data.Array.Unboxed
 import Data.Array.Base
 
+import System.Random.Random123.Misc
+
 
 -- Rotation constants:
 rotation_constant :: Int -> Int -> Int -> UArray Int Int
@@ -138,12 +140,6 @@ threefryRound pbox sbox r x = if r `mod` 4 == 3
     then pbox r (sbox r x)
     else sbox r x
 
-apply :: Int -> (Int -> a -> a) -> a -> a
-apply n f v0 = applyLoop 0 v0 where
-    applyLoop i v
-        | i == n    = v
-        | otherwise = applyLoop (i + 1) $ f i v
-
 extendKey2 :: (HasParityConstant a, Bits a) => (a, a) -> (a, a, a)
 extendKey2 (k0, k1) = (k0, k1, k0 `xor` k1 `xor` parityConstant)
 
@@ -151,12 +147,12 @@ extendKey4 :: (HasParityConstant a, Bits a) => (a, a, a, a) -> (a, a, a, a, a)
 extendKey4 (k0, k1, k2, k3) = (k0, k1, k2, k3, k0 `xor` k1 `xor` k2 `xor` k3 `xor` parityConstant)
 
 threefry2R :: (HasParityConstant a, Bits a) => Int -> (a, a) -> (a, a) -> (a, a)
-threefry2R rounds key ctr = apply rounds (threefryRound pbox sbox2) starting_x where
+threefry2R rounds key ctr = apply (threefryRound pbox sbox2) rounds starting_x where
     starting_x = addTuple2 key ctr
     pbox = pbox2 (extendKey2 key)
 
 threefry4R :: (HasParityConstant a, Bits a) => Int -> (a, a, a, a) -> (a, a, a, a) -> (a, a, a, a)
-threefry4R rounds key ctr = apply rounds (threefryRound pbox sbox4) starting_x where
+threefry4R rounds key ctr = apply (threefryRound pbox sbox4) rounds starting_x where
     starting_x = addTuple4 key ctr
     pbox = pbox4 (extendKey4 key)
 

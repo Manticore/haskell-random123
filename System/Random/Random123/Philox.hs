@@ -6,6 +6,9 @@ import Data.Bits
 import Data.Array.Unboxed
 import Data.Array.Base
 
+import System.Random.Random123.Misc
+
+
 class (Bits a, Num a) => PhiloxWord a where
     mulhilo :: a -> a -> (a, a)
     philoxW :: Int -> a
@@ -58,18 +61,11 @@ philoxRound4 (k0, k1) r (x0, x1, x2, x3) = (x0', x1', x2', x3') where
     (x2', x3') = philoxSubround r (philoxW 1) (philoxM4 0) k1 (x0, x3)
 
 
-apply :: Int -> (Int -> a -> a) -> a -> a
-apply n f v0 = applyLoop 0 v0 where
-    applyLoop i v
-        | i == n    = v
-        | otherwise = applyLoop (i + 1) $ f i v
-
-
 philox2R :: PhiloxWord a => Int -> a -> (a, a) -> (a, a)
-philox2R rounds key ctr = apply rounds (philoxRound2 key) ctr
+philox2R rounds key ctr = apply (philoxRound2 key) rounds ctr
 
 philox4R :: PhiloxWord a => Int -> (a, a) -> (a, a, a, a) -> (a, a, a, a)
-philox4R rounds key ctr = apply rounds (philoxRound4 key) ctr
+philox4R rounds key ctr = apply (philoxRound4 key) rounds ctr
 
 philox2 :: PhiloxWord a => a -> (a, a) -> (a, a)
 philox2 = philox2R 10
