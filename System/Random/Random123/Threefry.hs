@@ -6,8 +6,6 @@ import Data.Bits
 import Data.Array.Unboxed
 import Data.Array.Base
 
---import System.Random.Random123.Types
-
 
 -- Rotation constants:
 rotation_constant :: Int -> Int -> Int -> UArray Int Int
@@ -167,8 +165,3 @@ threefry2 = threefry2R 20
 
 threefry4 :: (HasParityConstant a, Bits a) => (a, a, a, a) -> (a, a, a, a) -> (a, a, a, a)
 threefry4 = threefry4R 20
-
-main = do
-    let key = (123 :: Word32, 456 :: Word32)
-    let ctr = (0 :: Word32, 1 :: Word32)
-    print $ threefry2R 20 key ctr
