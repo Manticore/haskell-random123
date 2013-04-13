@@ -2,4 +2,5 @@
 *.o
 dist
 *.sublime-workspace
-
+test/profile
+test/profile.prof
