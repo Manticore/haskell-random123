@@ -91,14 +91,11 @@ instance ThreefryWord Word64 where
 
 -- S-box
 
-threefryRotate :: Bits a => Int -> a -> a
-threefryRotate r x = (x `shiftL` r) .|. (x `shiftR` (bitSize x - r))
-
 sbox' :: Bits a => Int -> (a -> RotationConstants) -> Array2 a -> Array2 a
 sbox' r r_constant (x0, x1) = (x0', x1') where
     rot = getRotationConstant (r_constant (undefined :: a)) (r `mod` 8)
     x0' = x0 + x1
-    x1' = x0' `xor` (threefryRotate rot x1)
+    x1' = x0' `xor` (x1 `rotate` rot)
 
 sbox2 :: (ThreefryWord a, Bits a) => Int -> Array2 a -> Array2 a
 sbox2 r x = sbox' r rotationConstant2 x
