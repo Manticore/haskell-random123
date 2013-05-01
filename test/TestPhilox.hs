@@ -16,7 +16,7 @@ import System.Random.Random123.Philox
 -- Checking reference results for Philox-2x32-10
 
 test_philox2x32 = results @?= reference where
-    key = 123 :: Array1 Word32
+    key = 123 :: Word32
     rounds = 10
     counters = [
         (0x6f55b92a, 0xab1c5ea9),
