@@ -19,6 +19,7 @@ Library
     System.Random.Random123
     System.Random.Random123.Threefry
     System.Random.Random123.Philox
+    System.Random.Random123.Types
 
   Build-Depends:
     base >= 4.4.0.0,
