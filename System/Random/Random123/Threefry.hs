@@ -1,5 +1,6 @@
 {-# OPTIONS_HADDOCK not-home #-}
 
+-- | Threefry, a counter-based random number generator.
 module System.Random.Random123.Threefry (
     threefry2, threefry4, threefry2R, threefry4R, ThreefryWord) where
 

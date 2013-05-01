@@ -1,5 +1,6 @@
 {-# OPTIONS_HADDOCK not-home #-}
 
+-- | Philox, counter-based random number generator.
 module System.Random.Random123.Philox (
     philox2, philox4, philox2R, philox4R, PhiloxWord) where
 
