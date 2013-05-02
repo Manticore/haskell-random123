@@ -1,14 +1,20 @@
 {-# LANGUAGE FlexibleInstances #-}
 
+-- |
 module System.Random.Random123 (
+    -- * Default RNGs
+    CBRNG32,
+    mkCBRNG32,
+    CBRNG64,
+    mkCBRNG64,
+    -- * Custom RNGs
+    mkCustomCBRNG32,
+    mkCustomCBRNG64,
+    -- * Keyed bijection functions
     philox2,
     philox4,
     threefry2,
-    threefry4,
-    mkCustomCBRNG32,
-    mkCustomCBRNG64,
-    mkCBRNG32,
-    mkCBRNG64
+    threefry4
     ) where
 
 import Data.Word
