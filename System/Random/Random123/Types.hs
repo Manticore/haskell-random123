@@ -94,21 +94,17 @@ class LimitedInteger a => Counter a where
     increment = skip 1
 
 
-instance (LimitedInteger (Array2 a), Bits a, Ord a, Num a) => Counter (Array2 a) where
+instance (LimitedInteger (Array2 a), Ord a, Num a, Bounded a) => Counter (Array2 a) where
     increment (c0, c1)
-        | c1 < maxnum = (c0, c1 + 1)
+        | c1 < maxBound = (c0, c1 + 1)
         | otherwise = (c0 + 1, 0)
-        where
-            maxnum = 2 ^ (bitSize c0) - 1
 
-instance (LimitedInteger (Array4 a), Bits a, Ord a, Num a) => Counter (Array4 a) where
+instance (LimitedInteger (Array4 a), Ord a, Num a, Bounded a) => Counter (Array4 a) where
     increment (c0, c1, c2, c3)
-        | c3 < maxnum = (c0, c1, c2, c3 + 1)
-        | c2 < maxnum = (c0, c1, c2 + 1, 0)
-        | c1 < maxnum = (c0, c1 + 1, 0, 0)
+        | c3 < maxBound = (c0, c1, c2, c3 + 1)
+        | c2 < maxBound = (c0, c1, c2 + 1, 0)
+        | c1 < maxBound = (c0, c1 + 1, 0, 0)
         | otherwise = (c0 + 1, 0, 0, 0)
-        where
-            maxnum = 2 ^ (bitSize c0) - 1
 
 
 -- | Class of objects allowing the extraction of 32-bit words from a given position.
