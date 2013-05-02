@@ -18,8 +18,8 @@ data StatefulCBRNG64 k c = StatefulCBRNG64 (k -> c -> c) k c Int
 
 instance (Counter c, Word32Array c) => RandomGen (StatefulCBRNG32 k c) where
 
-    next (StatefulCBRNG32 biject key ctr wctr) = (fromIntegral w32, new_gen) where
-        arr = biject key ctr
+    next (StatefulCBRNG32 bijection key ctr wctr) = (fromIntegral w32, new_gen) where
+        arr = bijection key ctr
         w32 = getWord32 wctr arr
         (ctr', wctr') = if wctr + 1 < numWords32 arr
             then (ctr, wctr + 1)
@@ -32,8 +32,8 @@ instance (Counter c, Word32Array c) => RandomGen (StatefulCBRNG32 k c) where
 
 instance (Counter c, Word64Array c) => RandomGen (StatefulCBRNG64 k c) where
 
-    next (StatefulCBRNG64 biject key ctr wctr) = (fromIntegral w64, new_gen) where
-        arr = biject key ctr
+    next (StatefulCBRNG64 bijection key ctr wctr) = (fromIntegral w64, new_gen) where
+        arr = bijection key ctr
         w64 = getWord64 wctr arr
         (ctr', wctr') = if wctr + 1 < numWords64 arr
             then (ctr, wctr + 1)
