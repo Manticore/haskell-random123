@@ -1,3 +1,5 @@
+{-# OPTIONS_HADDOCK hide #-}
+
 -- | Miscellaneous helper functions.
 module System.Random.Random123.Misc where
 
