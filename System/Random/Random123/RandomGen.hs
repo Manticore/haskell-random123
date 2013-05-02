@@ -1,10 +1,14 @@
+{-# OPTIONS_HADDOCK not-home #-}
+
 module System.Random.Random123.RandomGen (
     mkCustomCBRNG32,
     mkCustomCBRNG64,
     mkCBRNG32,
     mkCBRNG64,
     CBRNG32,
-    CBRNG64
+    CBRNG64,
+    CustomCBRNG32,
+    CustomCBRNG64
     ) where
 
 import System.Random
