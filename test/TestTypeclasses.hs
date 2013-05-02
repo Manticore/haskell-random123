@@ -1,5 +1,5 @@
 -- | Test standard RandomGen interface of Random123-backed generators.
-module TestTypes (test_types) where
+module TestTypeclasses (test_typeclasses) where
 
 import Data.Word
 
@@ -80,7 +80,7 @@ test_ctr4x64_increment ctr = increment ctr == skip 1 ctr where
 
 
 
-test_types = testGroup "Typeclasses" [
+test_typeclasses = testGroup "Typeclasses" [
     testGroup "LimitedInteger" [
         testGroup "liFromInteger . liToInteger == id" [
             testProperty "1x32" test_li1x32_bijection,
