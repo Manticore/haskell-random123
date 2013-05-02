@@ -66,6 +66,20 @@ test_ctr4x64_skip ctr i = liFromInteger (liToInteger ctr + i) == skip i ctr wher
     types = (ctr :: Array4 Word64, i :: Integer)
 
 
+test_ctr2x32_increment ctr = increment ctr == skip 1 ctr where
+    types = (ctr :: Array2 Word32)
+
+test_ctr4x32_increment ctr = increment ctr == skip 1 ctr where
+    types = (ctr :: Array4 Word32)
+
+test_ctr2x64_increment ctr = increment ctr == skip 1 ctr where
+    types = (ctr :: Array2 Word64)
+
+test_ctr4x64_increment ctr = increment ctr == skip 1 ctr where
+    types = (ctr :: Array4 Word64)
+
+
+
 test_types = testGroup "Typeclasses" [
     testGroup "LimitedInteger" [
         testGroup "liFromInteger . liToInteger == id" [
@@ -91,6 +105,12 @@ test_types = testGroup "Typeclasses" [
             testProperty "4x32" test_ctr4x32_skip,
             testProperty "2x64" test_ctr2x64_skip,
             testProperty "4x64" test_ctr4x64_skip
+            ],
+        testGroup "increment == skip 1" [
+            testProperty "2x32" test_ctr2x32_increment,
+            testProperty "4x32" test_ctr4x32_increment,
+            testProperty "2x64" test_ctr2x64_increment,
+            testProperty "4x64" test_ctr4x64_increment
             ]
         ]
     ]
