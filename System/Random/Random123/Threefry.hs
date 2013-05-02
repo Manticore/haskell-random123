@@ -98,7 +98,7 @@ sbox' r r_constant (x0, x1) = (x0', x1') where
     x1' = x0' `xor` (x1 `rotate` rot)
 
 sbox2 :: (ThreefryWord a, Bits a) => Int -> Array2 a -> Array2 a
-sbox2 r x = sbox' r rotationConstant2 x
+sbox2 r = sbox' r rotationConstant2
 
 sbox4 :: (ThreefryWord a, Bits a) => Int -> Array4 a -> Array4 a
 sbox4 r (x0, x1, x2, x3) = (x0', x1', x2', x3') where

@@ -59,7 +59,7 @@ instance PhiloxWord Word64 where
 
 philoxSubround :: PhiloxWord a => Int -> a -> a -> a -> Array2 a -> Array2 a
 philoxSubround r w m k (x0, x1) = (x0', x1') where
-    k' = k + w * (fromIntegral r)
+    k' = k + w * fromIntegral r
     (hi, lo) = mulhilo m x0
     x0' = hi `xor` k' `xor` x1
     x1' = lo
