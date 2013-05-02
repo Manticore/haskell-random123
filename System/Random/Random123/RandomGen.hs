@@ -16,11 +16,6 @@ data StatefulCBRNG32 k c = StatefulCBRNG32 (k -> c -> c) k c Int
 data StatefulCBRNG64 k c = StatefulCBRNG64 (k -> c -> c) k c Int
 
 
-instance (Show k, Show c) => Show (StatefulCBRNG32 k c) where
-    show (StatefulCBRNG32 biject key ctr w32_ctr) =
-        unwords ["StatefulCBRNG32", show key, show ctr, show w32_ctr]
-
-
 instance (Counter c, Word32Array c) => RandomGen (StatefulCBRNG32 k c) where
 
     next (StatefulCBRNG32 biject key ctr wctr) = (fromIntegral w32, new_gen) where
