@@ -5,7 +5,10 @@ module System.Random.Random123 (
     philox4,
     threefry2,
     threefry4,
-    mkPhilox2x32Gen
+    mkCustomCBRNG32,
+    mkCustomCBRNG64,
+    mkCBRNG32,
+    mkCBRNG64
     ) where
 
 import Data.Word
