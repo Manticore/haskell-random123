@@ -93,7 +93,7 @@ test_philox4x64 = results @?= reference where
     results = map (philox4R rounds key) counters
 
 
-test_philox = testGroup "Philox" [
+test_philox = testGroup "Philox, comparison with the reference" [
     testCase "2x32" test_philox2x32,
     testCase "4x32" test_philox4x32,
     testCase "2x64" test_philox2x64,

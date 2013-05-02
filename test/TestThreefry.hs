@@ -94,7 +94,7 @@ test_threefry4x64 = results @?= reference where
     results = map (threefry4R rounds key) counters
 
 
-test_threefry = testGroup "Threefry" [
+test_threefry = testGroup "Threefry, comparison with the reference" [
     testCase "2x32" test_threefry2x32,
     testCase "4x32" test_threefry4x32,
     testCase "2x64" test_threefry2x64,
