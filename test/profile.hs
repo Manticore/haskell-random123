@@ -33,4 +33,13 @@ test_bijection test = apply_ (fst test) iterations (snd test)
 test_rng = sum (take iterations (randoms (mkCBRNG32 0) :: [Float]))
 
 main :: IO ()
-main = print $ test_bijection philox2x32
+main = do
+    print $ test_rng
+    print $ test_bijection threefry2x32
+    print $ test_bijection philox2x32
+    print $ test_bijection threefry4x32
+    print $ test_bijection philox4x32
+    print $ test_bijection threefry2x64
+    print $ test_bijection philox2x64
+    print $ test_bijection threefry4x64
+    print $ test_bijection philox4x64
