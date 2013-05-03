@@ -30,15 +30,19 @@ module System.Random.Random123 (
     -- and serialization capabilities.
     CBRNG32,
     mkCBRNG32,
+    restoreCBRNG32,
     CBRNG64,
     mkCBRNG64,
+    restoreCBRNG64,
 
     -- * Custom RNGs
     -- | Use these if you want a custom bijection algorithm.
     CustomCBRNG32,
     mkCustomCBRNG32,
+    restoreCustomCBRNG32,
     CustomCBRNG64,
     mkCustomCBRNG64,
+    restoreCustomCBRNG64,
 
     -- * Keyed bijection functions
     -- | Use these if you want the ultimate control over keys and counters.
