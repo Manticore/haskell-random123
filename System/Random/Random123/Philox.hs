@@ -1,6 +1,7 @@
 {-# OPTIONS_HADDOCK not-home #-}
 
--- | Philox, counter-based random number generator.
+-- | Philox, a counter-based random number generator (keyed bijection function).
+-- Characterized by a low number of rounds involving relatively expensive computations.
 module System.Random.Random123.Philox (
     philox2, philox4, philox2R, philox4R, PhiloxWord) where
 

@@ -19,10 +19,18 @@ import System.Random.Random123.Philox
 import System.Random.Random123.Threefry
 
 
+-- | 32-bit RNG with a custom bijection function.
 data CustomCBRNG32 k c = CustomCBRNG32 (k -> c -> c) k c Int
+
+-- | 64-bit RNG with a custom bijection function.
 data CustomCBRNG64 k c = CustomCBRNG64 (k -> c -> c) k c Int
 
+-- | Default 32-bit RNG.
+-- Supports serialization through 'Show' / 'Read' interface.
 data CBRNG32 = CBRNG32 (Array2 Word32) (Array4 Word32) Int deriving (Eq, Show, Read)
+
+-- | Default 64-bit RNG.
+-- Supports serialization through 'Show' / 'Read' interface.
 data CBRNG64 = CBRNG64 (Array2 Word64) (Array4 Word64) Int deriving (Eq, Show, Read)
 
 

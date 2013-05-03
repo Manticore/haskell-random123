@@ -1,6 +1,7 @@
 {-# OPTIONS_HADDOCK not-home #-}
 
--- | Threefry, a counter-based random number generator.
+-- | Threefry, a counter-based random number generator (keyed bijection function).
+-- Characterized by a high number of rounds involving relatively cheap computations.
 module System.Random.Random123.Threefry (
     threefry2, threefry4, threefry2R, threefry4R, ThreefryWord) where
 
