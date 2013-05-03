@@ -8,7 +8,9 @@ module System.Random.Random123 (
     CBRNG64,
     mkCBRNG64,
     -- * Custom RNGs
+    CustomCBRNG32,
     mkCustomCBRNG32,
+    CustomCBRNG64,
     mkCustomCBRNG64,
     -- * Keyed bijection functions
     philox2,
