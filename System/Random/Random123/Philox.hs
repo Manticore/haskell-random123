@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns #-}
 {-# OPTIONS_HADDOCK not-home #-}
 
 -- | Philox, a counter-based random number generator (keyed bijection function).
@@ -65,12 +66,14 @@ philoxSubround r w m k (x0, x1) = (x0', x1') where
     x0' = hi `xor` k' `xor` x1
     x1' = lo
 
+-- FIXME: For some reason, if I do not force strictness in x0 and x1 here, it eats up the stack.
 philoxRound2 :: PhiloxWord a => a -> Int -> Array2 a -> Array2 a
-philoxRound2 k r (x0, x1) = (x0', x1') where
+philoxRound2 k r (!x0, !x1) = (x0', x1') where
     (x0', x1') = philoxSubround r philoxW_0 philoxM2 k (x0, x1)
 
+-- FIXME: For some reason, if I do not force strictness in x0-x3 here, it eats up the stack.
 philoxRound4 :: PhiloxWord a => Array2 a -> Int -> Array4 a -> Array4 a
-philoxRound4 (k0, k1) r (x0, x1, x2, x3) = (x0', x1', x2', x3') where
+philoxRound4 (k0, k1) r (!x0, !x1, !x2, !x3) = (x0', x1', x2', x3') where
     (x0', x1') = philoxSubround r philoxW_0 philoxM4_0 k0 (x2, x1)
     (x2', x3') = philoxSubround r philoxW_1 philoxM4_1 k1 (x0, x3)
 

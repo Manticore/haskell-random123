@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns #-}
 {-# OPTIONS_HADDOCK not-home #-}
 
 -- | Threefry, a counter-based random number generator (keyed bijection function).
@@ -92,8 +93,9 @@ instance ThreefryWord Word64 where
 
 -- S-box
 
+-- FIXME: For some reason, if I do not force strictness in x0 and x1 here, it eats up the stack.
 sbox' :: Bits a => Int -> (a -> RotationConstants) -> Array2 a -> Array2 a
-sbox' r r_constant (x0, x1) = (x0', x1') where
+sbox' r r_constant (!x0, !x1) = (x0', x1') where
     rot = getRotationConstant (r_constant (undefined :: a)) (r `mod` 8)
     x0' = x0 + x1
     x1' = x0' `xor` (x1 `rotate` rot)
@@ -101,8 +103,9 @@ sbox' r r_constant (x0, x1) = (x0', x1') where
 sbox2 :: (ThreefryWord a, Bits a) => Int -> Array2 a -> Array2 a
 sbox2 r = sbox' r rotationConstant2
 
+-- FIXME: For some reason, if I do not force strictness in x0-x3 here, it eats up the stack.
 sbox4 :: (ThreefryWord a, Bits a) => Int -> Array4 a -> Array4 a
-sbox4 r (x0, x1, x2, x3) = (x0', x1', x2', x3') where
+sbox4 r (!x0, !x1, !x2, !x3) = (x0', x1', x2', x3') where
     (xa, xb) = if r `mod` 2 == 0 then (x1, x3) else (x3, x1)
     (x0', xa') = sbox' r rotationConstant4_0 (x0, xa)
     (x2', xb') = sbox' r rotationConstant4_1 (x2, xb)
