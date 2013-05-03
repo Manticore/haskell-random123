@@ -5,4 +5,5 @@ dist
 test/profile
 test/profile.prof
 test/test_perf.html
+test/test_perf
 
