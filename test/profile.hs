@@ -34,7 +34,7 @@ test_rng = sum (take iterations (randoms (mkCBRNG32 0) :: [Float]))
 
 main :: IO ()
 main = do
-    print $ test_rng
+    print test_rng
     print $ test_bijection threefry2x32
     print $ test_bijection philox2x32
     print $ test_bijection threefry4x32
