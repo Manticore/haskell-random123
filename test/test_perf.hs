@@ -74,7 +74,7 @@ main = defaultMainWith defaultConfig (return ()) [
         bench "Philox-4x32" $ nf (test_rng_custom 32 Philox4x32) 2,
         bench "Philox-4x64" $ nf (test_rng_custom 32 Philox4x64) 3,
         bench "Threefry-4x32" $ nf (test_rng_custom 32 Threefry4x32) 4,
-        bench "Threefry-4x64" $ nf (test_rng_custom 32 Threefry4x64) 5,
+        bench "Threefry-4x64" $ nf (test_rng_custom 32 Threefry4x64) 5
         ],
     bgroup "64-bit RNGs" [
         bench "Default 64-bit" $ nf (test_rng_default 64) 6,
