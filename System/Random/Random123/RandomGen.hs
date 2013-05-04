@@ -73,29 +73,44 @@ instance (Counter c, Word32Array c) => RandomGen (CustomCBRNG32 k c) where
         (res, ctr', wctr') = next32 (bijection key) ctr wctr
         new_gen = CustomCBRNG32 bijection key ctr' wctr'
     genRange _ = genRange32
-    split gen = undefined
+    split (CustomCBRNG32 bijection key ctr wctr) = (gen', gen'') where
+        ctr' = increment ctr
+        ctr'' = bijection key ctr'
+        gen' = CustomCBRNG32 bijection key ctr' 0
+        gen'' = CustomCBRNG32 bijection key ctr'' 0
 
 instance (Counter c, Word64Array c) => RandomGen (CustomCBRNG64 k c) where
     next (CustomCBRNG64 bijection key ctr wctr) = (res, new_gen) where
         (res, ctr', wctr') = next64 (bijection key) ctr wctr
         new_gen = CustomCBRNG64 bijection key ctr' wctr'
     genRange _ = genRange64
-    split gen = undefined
+    split (CustomCBRNG64 bijection key ctr wctr) = (gen', gen'') where
+        ctr' = increment ctr
+        ctr'' = bijection key ctr'
+        gen' = CustomCBRNG64 bijection key ctr' 0
+        gen'' = CustomCBRNG64 bijection key ctr'' 0
 
 instance RandomGen CBRNG32 where
     next (CBRNG32 key ctr wctr) = (res, new_gen) where
         (res, ctr', wctr') = next32 (philox4 key) ctr wctr
         new_gen = CBRNG32 key ctr' wctr'
     genRange _ = genRange32
-    split gen = undefined
+    split (CBRNG32 key ctr wctr) = (gen', gen'') where
+        ctr' = increment ctr
+        ctr'' = philox4 key ctr'
+        gen' = CBRNG32 key ctr' 0
+        gen'' = CBRNG32 key ctr'' 0
 
 instance RandomGen CBRNG64 where
     next (CBRNG64 key ctr wctr) = (res, new_gen) where
         (res, ctr', wctr') = next64 (philox4 key) ctr wctr
         new_gen = CBRNG64 key ctr' wctr'
     genRange _ = genRange64
-    split gen = undefined
-
+    split (CBRNG64 key ctr wctr) = (gen', gen'') where
+        ctr' = increment ctr
+        ctr'' = philox4 key ctr'
+        gen' = CBRNG64 key ctr' 0
+        gen'' = CBRNG64 key ctr'' 0
 
 -- | Generalized CBRNG state, consisting of key, counter and subcounter,
 -- where the first two are cast to integers (using 'liToInteger').
