@@ -1,5 +1,5 @@
 Name:                Random123
-Version:             0.1.0
+Version:             0.1.1
 Synopsis:            Haskell port of Random123 library
 Description:
   This is a Haskell port of counter-based random number generators from the Random123 library
@@ -29,7 +29,7 @@ Source-repository head
 Source-repository this
   type:     git
   location: http://github.com/Manticore/haskell-random123.git
-  tag:      0.1.0
+  tag:      0.1.1
 
 Library
   Exposed-modules:

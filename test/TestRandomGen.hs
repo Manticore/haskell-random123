@@ -1,15 +1,13 @@
 -- | Test standard RandomGen interface of Random123-backed generators.
 module TestRandomGen (test_randomgen) where
 
-import Data.Word
 import System.Random
 
 import Test.Framework (testGroup)
 import Test.Framework.Providers.HUnit
 import Test.HUnit
 
-import System.Random.Random123.Types
-import System.Random.Random123.RandomGen
+import System.Random.Random123
 
 
 -- Expected mean and standard deviation for a list of uniformly distributed random floats

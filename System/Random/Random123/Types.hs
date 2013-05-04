@@ -31,13 +31,13 @@ class LimitedInteger a where
     liBitSize :: a -> Int
 
 
-array2FromInteger :: Bits a => Integer -> Array2 a
+array2FromInteger :: (Num a, Bits a) => Integer -> Array2 a
 array2FromInteger i = (x0, x1) where
     x1 = fromInteger i
     bits = bitSize x1 -- need this because cannot use 'a' type variable
     x0 = fromInteger (i `shiftR` bits)
 
-array4FromInteger :: Bits a => Integer -> Array4 a
+array4FromInteger :: (Num a, Bits a) => Integer -> Array4 a
 array4FromInteger i = (x0, x1, x2, x3) where
     x3 = fromInteger i
     bits = bitSize x3 -- need this because cannot use 'a' type variable
@@ -127,33 +127,37 @@ class Word32Array a where
     numWords32 :: a -> Int
 
 instance Word32Array (Array2 Word32) where
-    getWord32 0 (x0, x1) = x0
-    getWord32 1 (x0, x1) = x1
+    getWord32 0 (x0, _) = x0
+    getWord32 1 (_, x1) = x1
+    getWord32 _ _ = error "Wrong index in getWord32"
     numWords32 _ = 2
 
 instance Word32Array (Array4 Word32) where
-    getWord32 0 (x0, x1, x2, x3) = x0
-    getWord32 1 (x0, x1, x2, x3) = x1
-    getWord32 2 (x0, x1, x2, x3) = x2
-    getWord32 3 (x0, x1, x2, x3) = x3
+    getWord32 0 (x0, _, _, _) = x0
+    getWord32 1 (_, x1, _, _) = x1
+    getWord32 2 (_, _, x2, _) = x2
+    getWord32 3 (_, _, _, x3) = x3
+    getWord32 _ _ = error "Wrong index in getWord32"
     numWords32 _ = 4
 
 instance Word32Array (Array2 Word64) where
-    getWord32 0 (x0, x1) = fromIntegral (x0 `shiftR` 32)
-    getWord32 1 (x0, x1) = fromIntegral x0
-    getWord32 2 (x0, x1) = fromIntegral (x1 `shiftR` 32)
-    getWord32 3 (x0, x1) = fromIntegral x1
+    getWord32 0 (x0, _) = fromIntegral (x0 `shiftR` 32)
+    getWord32 1 (x0, _) = fromIntegral x0
+    getWord32 2 (_, x1) = fromIntegral (x1 `shiftR` 32)
+    getWord32 3 (_, x1) = fromIntegral x1
+    getWord32 _ _ = error "Wrong index in getWord32"
     numWords32 _ = 4
 
 instance Word32Array (Array4 Word64) where
-    getWord32 0 (x0, x1, x2, x3) = fromIntegral (x0 `shiftR` 32)
-    getWord32 1 (x0, x1, x2, x3) = fromIntegral x0
-    getWord32 2 (x0, x1, x2, x3) = fromIntegral (x1 `shiftR` 32)
-    getWord32 3 (x0, x1, x2, x3) = fromIntegral x1
-    getWord32 4 (x0, x1, x2, x3) = fromIntegral (x2 `shiftR` 32)
-    getWord32 5 (x0, x1, x2, x3) = fromIntegral x2
-    getWord32 6 (x0, x1, x2, x3) = fromIntegral (x3 `shiftR` 32)
-    getWord32 7 (x0, x1, x2, x3) = fromIntegral x3
+    getWord32 0 (x0, _, _, _) = fromIntegral (x0 `shiftR` 32)
+    getWord32 1 (x0, _, _, _) = fromIntegral x0
+    getWord32 2 (_, x1, _, _) = fromIntegral (x1 `shiftR` 32)
+    getWord32 3 (_, x1, _, _) = fromIntegral x1
+    getWord32 4 (_, _, x2, _) = fromIntegral (x2 `shiftR` 32)
+    getWord32 5 (_, _, x2, _) = fromIntegral x2
+    getWord32 6 (_, _, _, x3) = fromIntegral (x3 `shiftR` 32)
+    getWord32 7 (_, _, _, x3) = fromIntegral x3
+    getWord32 _ _ = error "Wrong index in getWord32"
     numWords32 _ = 8
 
 
@@ -169,25 +173,29 @@ instance Word64Array (Array2 Word32) where
     getWord64 0 (x0, x1) = hi `shiftL` 32 + lo where
         lo = fromIntegral x1 :: Word64
         hi = fromIntegral x0 :: Word64
+    getWord64 _ _ = error "Wrong index in getWord64"
     numWords64 _ = 1
 
 instance Word64Array (Array4 Word32) where
-    getWord64 0 (x0, x1, x2, x3) = hi `shiftL` 32 + lo where
+    getWord64 0 (x0, x1, _, _) = hi `shiftL` 32 + lo where
         lo = fromIntegral x1 :: Word64
         hi = fromIntegral x0 :: Word64
-    getWord64 1 (x0, x1, x2, x3) = hi `shiftL` 32 + lo where
+    getWord64 1 (_, _, x2, x3) = hi `shiftL` 32 + lo where
         lo = fromIntegral x2 :: Word64
         hi = fromIntegral x3 :: Word64
+    getWord64 _ _ = error "Wrong index in getWord64"
     numWords64 _ = 2
 
 instance Word64Array (Array2 Word64) where
-    getWord64 0 (x0, x1) = x0
-    getWord64 1 (x0, x1) = x1
+    getWord64 0 (x0, _) = x0
+    getWord64 1 (_, x1) = x1
+    getWord64 _ _ = error "Wrong index in getWord64"
     numWords64 _ = 2
 
 instance Word64Array (Array4 Word64) where
-    getWord64 0 (x0, x1, x2, x3) = x0
-    getWord64 1 (x0, x1, x2, x3) = x1
-    getWord64 2 (x0, x1, x2, x3) = x2
-    getWord64 3 (x0, x1, x2, x3) = x3
+    getWord64 0 (x0, _, _, _) = x0
+    getWord64 1 (_, x1, _, _) = x1
+    getWord64 2 (_, _, x2, _) = x2
+    getWord64 3 (_, _, _, x3) = x3
+    getWord64 _ _ = error "Wrong index in getWord64"
     numWords64 _ = 4
