@@ -58,7 +58,11 @@ test_bijection4x64 Threefry4x64 key =
     apply_ (threefry4 $ key4x64 key) (bijection_iterations `div` 4) (liFromInteger 0)
 
 
-main = defaultMainWith defaultConfig (return ()) [
+myConfig = defaultConfig {
+    cfgPerformGC = ljust True,
+    cfgReport = ljust "test_perf.html" }
+
+main = defaultMainWith myConfig (return ()) [
     bgroup "Bijections" [
         bench "Philox-2x32" $ nf (test_bijection2x32 Philox2x32) 101,
         bench "Philox-4x32" $ nf (test_bijection4x32 Philox4x32) 102,

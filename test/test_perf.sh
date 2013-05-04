@@ -5,4 +5,4 @@ rm test_perf.o
 
 ghc -i../ -O2 test_perf.hs
 
-./test_perf -g -o test_perf.html
+./test_perf
