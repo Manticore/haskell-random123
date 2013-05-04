@@ -1,0 +1,9 @@
+*.hi
+*.o
+dist
+*.sublime-workspace
+test/profile
+test/profile.prof
+test/test_perf.html
+test/test_perf
+
