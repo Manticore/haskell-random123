@@ -11,16 +11,20 @@ Contributing
 When making changes to the library, run (or update, if necessary) functionality tests.
 This can be done as
 
-    cabal configure --enable-tests
-    cabal build
-    cabal test
+::
+
+    $ cabal configure --enable-tests
+    $ cabal build
+    $ cabal test
 
 or just by executing ``cd test; ./test.sh``.
 You can also check the performance by running benchmarks as
 
-    cabal configure --enable-benchmarks
-    cabal build
-    cabal bench
+::
+
+    $ cabal configure --enable-benchmarks
+    $ cabal build
+    $ cabal bench
 
 or by executing ``cd test; ./test_perf.sh``.
 Benchmarks will create a report file ``test_perf.html``
@@ -46,7 +50,7 @@ TODO
       in particular in terms of strategically placed strictness enforcement.
 
 * Current ``split`` implementation is a quick solution that kind of works
-  (much like ``StdGen``s one).
+  (much like ``StdGen``'s one).
   A mathematically robust implementation is required
   (and CBRNGs by nature should be well-suited for this).
   Moreover, it would be great to have some tests that could distinguish
