@@ -31,13 +31,13 @@ class LimitedInteger a where
     liBitSize :: a -> Int
 
 
-array2FromInteger :: Bits a => Integer -> Array2 a
+array2FromInteger :: (Num a, Bits a) => Integer -> Array2 a
 array2FromInteger i = (x0, x1) where
     x1 = fromInteger i
     bits = bitSize x1 -- need this because cannot use 'a' type variable
     x0 = fromInteger (i `shiftR` bits)
 
-array4FromInteger :: Bits a => Integer -> Array4 a
+array4FromInteger :: (Num a, Bits a) => Integer -> Array4 a
 array4FromInteger i = (x0, x1, x2, x3) where
     x3 = fromInteger i
     bits = bitSize x3 -- need this because cannot use 'a' type variable
