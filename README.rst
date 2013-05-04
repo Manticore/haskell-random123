@@ -37,7 +37,7 @@ TODO
 * Performance issues:
 
     * According to Salmon et al., Threefry-4x64 should be the fastest algorithm on CPUs.
-      This is what not I'm seeing; need to investigate it further.
+      This is not what I'm seeing; need to investigate it further.
       If it is made faster, it should be used as the default bijection for ``CBRNG32/64``
       instead of ``philox4``.
 
