@@ -12,34 +12,42 @@ import System.Random.Random123.Types
 import System.Random.Random123.RandomGen
 
 
+-- Expected mean and standard deviation for a list of uniformly distributed random floats
 num_floats = 10000
 e_mean = 0.5
 e_var = 1 / 12
 e_std = sqrt e_var
-e_mean_std = e_std / (sqrt (fromIntegral num_floats))
-e_std_std = sqrt ((e_var ^^ 2) / (fromIntegral num_floats - 1) * 2)
+e_mean_std = e_std / sqrt (fromIntegral num_floats)
+e_std_std = sqrt ((e_var ** 2) / (fromIntegral num_floats - 1) * 2)
 
-test_gen32_mean = (avg < e_mean + 5 * e_std && avg > e_mean - 5 * e_std) @?= True where
+-- Functions to calculate mean and stddev of a list (not very effective)
+mean xs = sum xs / fromIntegral (length xs)
+std xs = sqrt (sum xsquares / fromIntegral (length xs)) where
+    xmean = mean xs
+    xsquares = map (\x -> (x - xmean) ** 2) xs
+
+-- Check that mean and stddev of a generated list are inside [-5,5] sigma interval
+-- around their expected values (chance of failure ~1e-6).
+
+test_gen32_mean = (xmean < e_mean + 5 * e_std && xmean > e_mean - 5 * e_std) @?= True where
     gen = mkCBRNG32 123456
-    rlist = take num_floats (randoms gen :: [Float])
-    avg = (sum rlist) / (fromIntegral num_floats)
+    floats = take num_floats (randoms gen :: [Float])
+    xmean = mean floats
 
-test_gen32_std = (std < e_std + 5 * e_std_std && std > e_std - 5 * e_std_std) @?= True where
+test_gen32_std = (xstd < e_std + 5 * e_std_std && xstd > e_std - 5 * e_std_std) @?= True where
     gen = mkCBRNG32 123456
-    rlist = take num_floats (randoms gen :: [Float])
-    avg = (sum rlist) / (fromIntegral num_floats)
-    std = sqrt ((sum (map (\x -> (x - avg) ^^ 2) rlist)) / (fromIntegral num_floats))
+    floats = take num_floats (randoms gen :: [Float])
+    xstd = std floats
 
-test_gen64_mean = (avg < e_mean + 5 * e_std && avg > e_mean - 5 * e_std) @?= True where
+test_gen64_mean = (xmean < e_mean + 5 * e_std && xmean > e_mean - 5 * e_std) @?= True where
     gen = mkCBRNG64 123456
-    rlist = take num_floats (randoms gen :: [Float])
-    avg = (sum rlist) / (fromIntegral num_floats)
+    floats = take num_floats (randoms gen :: [Float])
+    xmean = mean floats
 
-test_gen64_std = (std < e_std + 5 * e_std_std && std > e_std - 5 * e_std_std) @?= True where
+test_gen64_std = (xstd < e_std + 5 * e_std_std && xstd > e_std - 5 * e_std_std) @?= True where
     gen = mkCBRNG64 123456
-    rlist = take num_floats (randoms gen :: [Float])
-    avg = (sum rlist) / (fromIntegral num_floats)
-    std = sqrt ((sum (map (\x -> (x - avg) ^^ 2) rlist)) / (fromIntegral num_floats))
+    floats = take num_floats (randoms gen :: [Float])
+    xstd = std floats
 
 
 test_randomgen = testGroup "RandomGen" [
