@@ -12,4 +12,5 @@ tests = [
     test_randomgen
     ]
 
+main :: IO ()
 main = defaultMain tests

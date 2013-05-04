@@ -23,7 +23,6 @@ import Data.Word
 
 import System.Random.Random123.Types
 import System.Random.Random123.Philox
-import System.Random.Random123.Threefry
 
 
 -- | 32-bit RNG with a custom bijection function.
@@ -55,7 +54,8 @@ next32 bijection ctr wctr = (fromIntegral w32, ctr', wctr') where
         then (ctr, wctr + 1)
         else (increment ctr, 0)
 
-genRange32 = (0, min maxBound (2^32 - 1)) :: (Int, Int)
+genRange32 :: (Int, Int)
+genRange32 = (0, min maxBound (2^32 - 1))
 
 next64 :: (Counter c, Word64Array c) => (c -> c) -> c -> Int -> (Int, c, Int)
 next64 bijection ctr wctr = (fromIntegral w64, ctr', wctr') where
@@ -65,7 +65,8 @@ next64 bijection ctr wctr = (fromIntegral w64, ctr', wctr') where
         then (ctr, wctr + 1)
         else (increment ctr, 0)
 
-genRange64 = (0, min maxBound (2^64 - 1)) :: (Int, Int)
+genRange64 :: (Int, Int)
+genRange64 = (0, min maxBound (2^64 - 1))
 
 
 instance (Counter c, Word32Array c) => RandomGen (CustomCBRNG32 k c) where
@@ -73,7 +74,7 @@ instance (Counter c, Word32Array c) => RandomGen (CustomCBRNG32 k c) where
         (res, ctr', wctr') = next32 (bijection key) ctr wctr
         new_gen = CustomCBRNG32 bijection key ctr' wctr'
     genRange _ = genRange32
-    split (CustomCBRNG32 bijection key ctr wctr) = (gen', gen'') where
+    split (CustomCBRNG32 bijection key ctr _) = (gen', gen'') where
         ctr' = increment ctr
         ctr'' = bijection key ctr'
         gen' = CustomCBRNG32 bijection key ctr' 0
@@ -84,7 +85,7 @@ instance (Counter c, Word64Array c) => RandomGen (CustomCBRNG64 k c) where
         (res, ctr', wctr') = next64 (bijection key) ctr wctr
         new_gen = CustomCBRNG64 bijection key ctr' wctr'
     genRange _ = genRange64
-    split (CustomCBRNG64 bijection key ctr wctr) = (gen', gen'') where
+    split (CustomCBRNG64 bijection key ctr _) = (gen', gen'') where
         ctr' = increment ctr
         ctr'' = bijection key ctr'
         gen' = CustomCBRNG64 bijection key ctr' 0
@@ -95,7 +96,7 @@ instance RandomGen CBRNG32 where
         (res, ctr', wctr') = next32 (philox4 key) ctr wctr
         new_gen = CBRNG32 key ctr' wctr'
     genRange _ = genRange32
-    split (CBRNG32 key ctr wctr) = (gen', gen'') where
+    split (CBRNG32 key ctr _) = (gen', gen'') where
         ctr' = increment ctr
         ctr'' = philox4 key ctr'
         gen' = CBRNG32 key ctr' 0
@@ -106,7 +107,7 @@ instance RandomGen CBRNG64 where
         (res, ctr', wctr') = next64 (philox4 key) ctr wctr
         new_gen = CBRNG64 key ctr' wctr'
     genRange _ = genRange64
-    split (CBRNG64 key ctr wctr) = (gen', gen'') where
+    split (CBRNG64 key ctr _) = (gen', gen'') where
         ctr' = increment ctr
         ctr'' = philox4 key ctr'
         gen' = CBRNG64 key ctr' 0
@@ -129,11 +130,11 @@ instance SerializableCBRNG CBRNG64 where
     getState (CBRNG64 key ctr wctr) = CBRNGState (liToInteger key) (liToInteger ctr) wctr
 
 instance (LimitedInteger k, LimitedInteger c) => SerializableCBRNG (CustomCBRNG32 k c) where
-    getState (CustomCBRNG32 bijection key ctr wctr) =
+    getState (CustomCBRNG32 _ key ctr wctr) =
         CBRNGState (liToInteger key) (liToInteger ctr) wctr
 
 instance (LimitedInteger k, LimitedInteger c) => SerializableCBRNG (CustomCBRNG64 k c) where
-    getState (CustomCBRNG64 bijection key ctr wctr) =
+    getState (CustomCBRNG64 _ key ctr wctr) =
         CBRNGState (liToInteger key) (liToInteger ctr) wctr
 
 

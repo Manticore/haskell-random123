@@ -9,8 +9,6 @@ module System.Random.Random123.Threefry (
 import Data.Word
 import Data.Bits
 import Data.Array.Base
-import Data.Array.Unboxed
-
 
 import System.Random.Random123.Types
 import System.Random.Random123.Misc
@@ -139,18 +137,19 @@ addTuple4 :: Num a => Array4 a -> Array4 a -> Array4 a
 addTuple4 (k0, k1, k2, k3) (x0, x1, x2, x3) = (k0 + x0, k1 + x1, k2 + x2, k3 + x3)
 
 pbox2 :: Bits a => (a, a, a) -> Int -> Array2 a -> Array2 a
-pbox2 extended_key r x = (x0', x1' + fromIntegral shift) where
-    shift = r `div` 4 + 1
-    (x0', x1') = addTuple2 x (shiftTuple2 shift extended_key)
+pbox2 extended_key r x = (x0', x1' + fromIntegral tshift) where
+    tshift = r `div` 4 + 1
+    (x0', x1') = addTuple2 x (shiftTuple2 tshift extended_key)
 
 pbox4 :: Bits a => (a, a, a, a, a) -> Int -> Array4 a -> Array4 a
-pbox4 extended_key r x = (x0', x1', x2', x3' + fromIntegral shift) where
-    shift = r `div` 4 + 1
-    (x0', x1', x2', x3') = addTuple4 x (shiftTuple4 shift extended_key)
+pbox4 extended_key r x = (x0', x1', x2', x3' + fromIntegral tshift) where
+    tshift = r `div` 4 + 1
+    (x0', x1', x2', x3') = addTuple4 x (shiftTuple4 tshift extended_key)
 
 
 -- Additional helper functions.
 
+threefryRound :: (Int -> c -> c) -> (Int -> c -> c) -> Int -> c -> c
 threefryRound pbox sbox r x = if r `mod` 4 == 3
     then pbox r (sbox r x)
     else sbox r x
