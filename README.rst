@@ -5,6 +5,28 @@ This is a Haskell port of counter-based random number generators from `Random123
 The description of algorithms can be also found in `Salmon et al., P. Int. C. High. Perform. 16 (2011) <http://dx.doi.org/doi:10.1145/2063384.2063405>`_.
 
 
+Contributing
+------------
+
+When making changes to the library, run (or update, if necessary) functionality tests.
+This can be done as
+
+    cabal configure --enable-tests
+    cabal build
+    cabal test
+
+or just by executing ``cd test; ./test.sh``.
+You can also check the performance by running benchmarks as
+
+    cabal configure --enable-benchmarks
+    cabal build
+    cabal bench
+
+or by executing ``cd test; ./test_perf.sh``.
+Benchmarks will create a report file ``test_perf.html``
+in the folder where they were executed from.
+
+
 TODO
 ----
 
@@ -22,3 +44,10 @@ TODO
 
     * In general, there seems to be a lot of optimizations that can be done,
       in particular in terms of strategically placed strictness enforcement.
+
+* Current ``split`` implementation is a quick solution that kind of works
+  (much like ``StdGen``s one).
+  A mathematically robust implementation is required
+  (and CBRNGs by nature should be well-suited for this).
+  Moreover, it would be great to have some tests that could distinguish
+  "bad" ``split`` from a "good" one.
