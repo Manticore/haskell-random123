@@ -1,11 +1,12 @@
 {-# LANGUAGE FlexibleInstances #-}
 
--- | This module is a Haskell port of <http://www.thesalmons.org/john/random123/ Random123 library>.
+-- | This module is a Haskell port of the Random123 library
+-- (<http://www.thesalmons.org/john/random123/>).
 -- It is based on counter-based pseudo-random number generators (CBRNGs), which are, essentially,
 -- keyed bijections which transform successive counters into randomly distributed integers.
 -- For details about the theory behind the algorithms along with statistical and performance tests
--- see the paper
--- <http://dx.doi.org/doi:10.1145/2063384.2063405 Salmon et al., P. Int. C. High. Perform. 16 (2011)>.
+-- see the paper Salmon et al., P. Int. C. High. Perform. 16 (2011)
+-- (<http://dx.doi.org/doi:10.1145/2063384.2063405>).
 --
 -- The module exposes both bijection functions themselves (for customized approach) and
 -- instances of 'RandomGen'.
