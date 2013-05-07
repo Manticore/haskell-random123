@@ -92,17 +92,17 @@ instance ThreefryWord Word64 where
 -- S-box
 
 -- FIXME: For some reason, if I do not force strictness in x0 and x1 here, it eats up the stack.
-sbox' :: Bits a => Int -> (a -> RotationConstants) -> Array2 a -> Array2 a
+sbox' :: (Num a, Bits a) => Int -> (a -> RotationConstants) -> Array2 a -> Array2 a
 sbox' r r_constant (!x0, !x1) = (x0', x1') where
     rot = getRotationConstant (r_constant (undefined :: a)) (r `mod` 8)
     x0' = x0 + x1
     x1' = x0' `xor` (x1 `rotate` rot)
 
-sbox2 :: (ThreefryWord a, Bits a) => Int -> Array2 a -> Array2 a
+sbox2 :: (ThreefryWord a, Bits a, Num a) => Int -> Array2 a -> Array2 a
 sbox2 r = sbox' r rotationConstant2
 
 -- FIXME: For some reason, if I do not force strictness in x0-x3 here, it eats up the stack.
-sbox4 :: (ThreefryWord a, Bits a) => Int -> Array4 a -> Array4 a
+sbox4 :: (ThreefryWord a, Bits a, Num a) => Int -> Array4 a -> Array4 a
 sbox4 r (!x0, !x1, !x2, !x3) = (x0', x1', x2', x3') where
     (xa, xb) = if r `mod` 2 == 0 then (x1, x3) else (x3, x1)
     (x0', xa') = sbox' r rotationConstant4_0 (x0, xa)
@@ -136,12 +136,12 @@ addTuple2 (k0, k1) (x0, x1) = (k0 + x0, k1 + x1)
 addTuple4 :: Num a => Array4 a -> Array4 a -> Array4 a
 addTuple4 (k0, k1, k2, k3) (x0, x1, x2, x3) = (k0 + x0, k1 + x1, k2 + x2, k3 + x3)
 
-pbox2 :: Bits a => (a, a, a) -> Int -> Array2 a -> Array2 a
+pbox2 :: (Num a, Bits a) => (a, a, a) -> Int -> Array2 a -> Array2 a
 pbox2 extended_key r x = (x0', x1' + fromIntegral tshift) where
     tshift = r `div` 4 + 1
     (x0', x1') = addTuple2 x (shiftTuple2 tshift extended_key)
 
-pbox4 :: Bits a => (a, a, a, a, a) -> Int -> Array4 a -> Array4 a
+pbox4 :: (Num a, Bits a) => (a, a, a, a, a) -> Int -> Array4 a -> Array4 a
 pbox4 extended_key r x = (x0', x1', x2', x3' + fromIntegral tshift) where
     tshift = r `div` 4 + 1
     (x0', x1', x2', x3') = addTuple4 x (shiftTuple4 tshift extended_key)
@@ -162,7 +162,7 @@ extendKey4 (k0, k1, k2, k3) = (k0, k1, k2, k3, k0 `xor` k1 `xor` k2 `xor` k3 `xo
 
 
 -- | Generates a Threefry-2 random number with a custom number of rounds.
-threefry2R :: (ThreefryWord a, Bits a)
+threefry2R :: (ThreefryWord a, Bits a, Num a)
     => Int -- ^ number of rounds (1-32),
     -> Array2 a -- ^ key,
     -> Array2 a -- ^ counter,
@@ -176,7 +176,7 @@ threefry2R rounds key ctr
 
 
 -- | Generates a Threefry-4 random number with a custom number of rounds.
-threefry4R :: (ThreefryWord a, Bits a)
+threefry4R :: (ThreefryWord a, Bits a, Num a)
     => Int -- ^ number of rounds (1-72),
     -> Array4 a -- ^ key,
     -> Array4 a -- ^ counter,
@@ -190,7 +190,7 @@ threefry4R rounds key ctr
 
 
 -- | Generates a Threefry-2 random number with the optimal number of rounds.
-threefry2 :: (ThreefryWord a, Bits a)
+threefry2 :: (ThreefryWord a, Bits a, Num a)
     => Array2 a -- ^ key,
     -> Array2 a -- ^ counter,
     -> Array2 a -- ^ random number.
@@ -198,7 +198,7 @@ threefry2 = threefry2R 20
 
 
 -- | Generates a Threefry-4 random number with the optimal number of rounds.
-threefry4 :: (ThreefryWord a, Bits a)
+threefry4 :: (ThreefryWord a, Bits a, Num a)
     => Array4 a -- ^ key,
     -> Array4 a -- ^ counter,
     -> Array4 a -- ^ random number.
