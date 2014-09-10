@@ -31,29 +31,29 @@ class LimitedInteger a where
     liBitSize :: a -> Int
 
 
-array2FromInteger :: (Num a, Bits a) => Integer -> Array2 a
+array2FromInteger :: (Num a, FiniteBits a) => Integer -> Array2 a
 array2FromInteger i = (x0, x1) where
     x1 = fromInteger i
-    bits = bitSize x1 -- need this because cannot use 'a' type variable
+    bits = finiteBitSize x1 -- need this because cannot use 'a' type variable
     x0 = fromInteger (i `shiftR` bits)
 
-array4FromInteger :: (Num a, Bits a) => Integer -> Array4 a
+array4FromInteger :: (Num a, FiniteBits a) => Integer -> Array4 a
 array4FromInteger i = (x0, x1, x2, x3) where
     x3 = fromInteger i
-    bits = bitSize x3 -- need this because cannot use 'a' type variable
+    bits = finiteBitSize x3 -- need this because cannot use 'a' type variable
     x0 = fromInteger (i `shiftR` (bits * 3))
     x1 = fromInteger (i `shiftR` (bits * 2))
     x2 = fromInteger (i `shiftR` bits)
 
-array2ToInteger :: (Integral a, Bits a) => Array2 a -> Integer
+array2ToInteger :: (Integral a, FiniteBits a) => Array2 a -> Integer
 array2ToInteger (x0, x1) = x0' + x1' where
-    bits = bitSize x0
+    bits = finiteBitSize x0
     x0' = toInteger x0 `shiftL` bits
     x1' = toInteger x1
 
-array4ToInteger :: (Integral a, Bits a) => Array4 a -> Integer
+array4ToInteger :: (Integral a, FiniteBits a) => Array4 a -> Integer
 array4ToInteger (x0, x1, x2, x3) = x0' + x1' + x2' + x3' where
-    bits = bitSize x0
+    bits = finiteBitSize x0
     x0' = toInteger x0 `shiftL` (bits * 3)
     x1' = toInteger x1 `shiftL` (bits * 2)
     x2' = toInteger x2 `shiftL` bits
@@ -61,38 +61,38 @@ array4ToInteger (x0, x1, x2, x3) = x0' + x1' + x2' + x3' where
 
 -- Technically, Word32 and Word64 instances are identical,
 -- but I couldn't persuade GHC to compile them in generalized form
--- (like "instance (Num a, Bits a, Integral a) => LimitedInteger (Array2 a)").
+-- (like "instance (Num a, FiniteBits a, Integral a) => LimitedInteger (Array2 a)").
 
 instance LimitedInteger Word32 where
     liFromInteger = fromInteger
     liToInteger = toInteger
-    liBitSize = bitSize
+    liBitSize = finiteBitSize
 
 instance LimitedInteger (Array2 Word32) where
     liFromInteger = array2FromInteger
     liToInteger = array2ToInteger
-    liBitSize _ = bitSize (undefined :: Word32) * 2
+    liBitSize _ = finiteBitSize (undefined :: Word32) * 2
 
 instance LimitedInteger (Array4 Word32) where
     liFromInteger = array4FromInteger
     liToInteger = array4ToInteger
-    liBitSize _ = bitSize (undefined :: Word32) * 4
+    liBitSize _ = finiteBitSize (undefined :: Word32) * 4
 
 
 instance LimitedInteger Word64 where
     liFromInteger = fromInteger
     liToInteger = toInteger
-    liBitSize = bitSize
+    liBitSize = finiteBitSize
 
 instance LimitedInteger (Array2 Word64) where
     liFromInteger = array2FromInteger
     liToInteger = array2ToInteger
-    liBitSize _ = bitSize (undefined :: Word64) * 2
+    liBitSize _ = finiteBitSize (undefined :: Word64) * 2
 
 instance LimitedInteger (Array4 Word64) where
     liFromInteger = array4FromInteger
     liToInteger = array4ToInteger
-    liBitSize _ = bitSize (undefined :: Word64) * 4
+    liBitSize _ = finiteBitSize (undefined :: Word64) * 4
 
 
 -- | Class of CBRNG counters.

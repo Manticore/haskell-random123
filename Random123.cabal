@@ -41,7 +41,7 @@ Library
     System.Random.Random123.RandomGen
 
   Build-Depends:
-    base >= 4.4.0.0 && < 5.0,
+    base >= 4.7.0.0 && < 5.0,
     array >= 0.4,
     random >= 1.0.0.0
 
