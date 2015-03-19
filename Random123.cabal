@@ -43,6 +43,7 @@ Library
   Build-Depends:
     base >= 4.7.0.0 && < 5.0,
     array >= 0.4,
+    data-dword,
     random >= 1.0.0.0
 
 Test-Suite test
@@ -67,6 +68,6 @@ Benchmark test_perf
   Build-depends:
     base >= 4.4 && < 5.0,
     random >= 1.0,
-    criterion >= 0.6,
+    criterion >= 0.6 && < 1.0,
     Random123
   Ghc-options: -O2

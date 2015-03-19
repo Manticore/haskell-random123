@@ -9,6 +9,8 @@ module System.Random.Random123.Philox (
 import Data.Word
 import Data.Bits
 
+import Data.DoubleWord
+
 import System.Random.Random123.Misc
 import System.Random.Random123.Types
 
@@ -43,10 +45,10 @@ instance PhiloxWord Word32 where
 
 instance PhiloxWord Word64 where
     mulhilo a b = (hi, lo) where
-        r :: Integer
-        r = fromIntegral a * fromIntegral b
-        hi = fromIntegral (r `shiftR` 64)
-        lo = fromIntegral r
+        r :: Word128
+        r = extendLo a * extendLo b
+        hi = hiWord r
+        lo = loWord r
 
     philoxW_0 = 0x9E3779B97F4A7C15 -- golden ratio
     philoxW_1 = 0xBB67AE8584CAA73B -- sqrt(3)-1
