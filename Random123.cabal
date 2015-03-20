@@ -68,6 +68,6 @@ Benchmark test_perf
   Build-depends:
     base >= 4.4 && < 5.0,
     random >= 1.0,
-    criterion >= 0.6 && < 1.0,
+    criterion >= 1.0,
     Random123
   Ghc-options: -O2
