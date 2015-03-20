@@ -1,5 +1,5 @@
 Name:                Random123
-Version:             0.2.0
+Version:             0.3.0
 Synopsis:            Haskell port of Random123 library
 Description:
   This is a Haskell port of counter-based random number generators from the Random123 library
