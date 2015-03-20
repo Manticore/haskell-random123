@@ -1,7 +1,7 @@
 import Data.Word
 
 import Criterion.Main
-import Criterion.Config
+import Criterion.Types
 
 import System.Random.Random123.Threefry
 import System.Random.Random123.Misc
@@ -59,10 +59,10 @@ test_bijection4x64 Threefry4x64 key =
 
 
 myConfig = defaultConfig {
-    cfgPerformGC = ljust True,
-    cfgReport = ljust "test_perf.html" }
+    forceGC = True,
+    reportFile = Just "test_perf.html" }
 
-main = defaultMainWith myConfig (return ()) [
+main = defaultMainWith myConfig [
     bgroup "Bijections" [
         bench "Philox-2x32" $ nf (test_bijection2x32 Philox2x32) 101,
         bench "Philox-4x32" $ nf (test_bijection4x32 Philox4x32) 102,

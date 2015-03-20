@@ -1,9 +1,10 @@
 *.hi
 *.o
-dist
+dist/
 *.sublime-workspace
 test/profile
 test/profile.prof
 test/test_perf.html
 test/test_perf
-
+.cabal-sandbox/
+cabal.sandbox.config

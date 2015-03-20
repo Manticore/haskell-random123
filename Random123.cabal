@@ -1,5 +1,5 @@
 Name:                Random123
-Version:             0.1.2
+Version:             0.2.0
 Synopsis:            Haskell port of Random123 library
 Description:
   This is a Haskell port of counter-based random number generators from the Random123 library
@@ -29,7 +29,7 @@ Source-repository head
 Source-repository this
   type:     git
   location: http://github.com/Manticore/haskell-random123.git
-  tag:      0.1.2
+  tag:      0.2.0
 
 Library
   Exposed-modules:
@@ -41,8 +41,9 @@ Library
     System.Random.Random123.RandomGen
 
   Build-Depends:
-    base >= 4.4.0.0 && < 5.0,
+    base >= 4.7.0.0 && < 5.0,
     array >= 0.4,
+    data-dword,
     random >= 1.0.0.0
 
 Test-Suite test
@@ -51,7 +52,7 @@ Test-Suite test
   Main-is: test.hs
   Other-modules: TestPhilox TestThreefry TestRandomGen TestTypeclasses
   Build-depends:
-    base >= 4.4 && < 5.0,
+    base >= 4.7 && < 5.0,
     random >= 1.0,
     test-framework >= 0.8,
     test-framework-hunit >= 0.3,
@@ -65,8 +66,8 @@ Benchmark test_perf
   Hs-source-dirs: test
   Main-is: test_perf.hs
   Build-depends:
-    base >= 4.4 && < 5.0,
+    base >= 4.7 && < 5.0,
     random >= 1.0,
-    criterion >= 0.6,
+    criterion >= 1.0,
     Random123
   Ghc-options: -O2
