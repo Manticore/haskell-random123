@@ -41,9 +41,6 @@ TODO
       If it is made faster, it should be used as the default bijection for ``CBRNG32/64``
       instead of ``philox4``.
 
-    * ``mulhilo`` function in 64-bit Philox is not optimal in terms of performance.
-      It can be made faster given the access to CPU intrinsics.
-
     * 32-bit Threefry shows suprisingly low performance (see ``Bijection`` benchmark group).
 
     * In general, there seems to be a lot of optimizations that can be done,
