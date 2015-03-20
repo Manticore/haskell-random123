@@ -20,6 +20,7 @@ module System.Random.Random123.RandomGen (
 
 import System.Random
 import Data.Word
+import Data.Bits
 
 import System.Random.Random123.Types
 import System.Random.Random123.Philox
@@ -55,7 +56,9 @@ next32 bijection ctr wctr = (fromIntegral w32, ctr', wctr') where
         else (increment ctr, 0)
 
 genRange32 :: (Int, Int)
-genRange32 = (0, min maxBound (2^32 - 1))
+genRange32
+    | finiteBitSize (0 :: Int) > 32 = (0, 2^32 - 1)
+    | otherwise                     = (minBound, maxBound)
 
 next64 :: (Counter c, Word64Array c) => (c -> c) -> c -> Int -> (Int, c, Int)
 next64 bijection ctr wctr = (fromIntegral w64, ctr', wctr') where
@@ -66,7 +69,9 @@ next64 bijection ctr wctr = (fromIntegral w64, ctr', wctr') where
         else (increment ctr, 0)
 
 genRange64 :: (Int, Int)
-genRange64 = (0, min maxBound (2^64 - 1))
+genRange64
+    | finiteBitSize (0 :: Int) > 64 = (0, 2^64 - 1)
+    | otherwise                     = (minBound, maxBound)
 
 
 instance (Counter c, Word32Array c) => RandomGen (CustomCBRNG32 k c) where
